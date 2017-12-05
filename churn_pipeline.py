@@ -14,16 +14,15 @@ from sklearn.model_selection import GridSearchCV
 
 def grid_search(model, grid, X, y, cv=5, scaling=True):
     """Perform a grid search over the grid for the training data."""
-    g = GridSearchCV(model, grid, n_jobs=1, cv=10)
+    scores = ['precision','recall','accuracy']
+    g = GridSearchCV(model, grid, n_jobs=-1, cv=10, scoring=scores)
     pl = ChurnPipeline(g, scaling)
     pl.fit(X, y)
     if scaling:
-        print("Best parameters:", pl.Pipeline.steps[1][1].best_params_)
-        return pl.Pipeline.steps[1][1].best_estimator_
-    else:
-        print("Best parameters:", pl.Pipeline.steps[0][1].best_params_)
-        return pl.Pipeline.steps[0][1].best_estimator_
+        return pl.Pipeline.steps[1][1]
 
+    else:
+        return pl.Pipeline.steps[0][1]
 
 class ChurnPipeline():
     """Class that will make the data pipeline for the churn case study."""
