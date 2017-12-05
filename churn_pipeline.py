@@ -9,16 +9,30 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import cross_validate
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.model_selection import GridSearchCV
+
+
+def grid_search(model, grid, X, y, cv=5, scaling=True):
+    """Perform a grid search over the grid for the training data."""
+    g = GridSearchCV(model, grid, n_jobs=1, cv=10)
+    pl = ChurnPipeline(g, scaling)
+    pl.fit(X, y)
+    if scaling:
+        print("Best parameters:", pl.Pipeline.steps[1][1].best_params_)
+        return pl.Pipeline.steps[1][1].best_estimator_
+    else:
+        print("Best parameters:", pl.Pipeline.steps[0][1].best_params_)
+        return pl.Pipeline.steps[0][1].best_estimator_
 
 
 class ChurnPipeline():
     """Class that will make the data pipeline for the churn case study."""
 
-    def __init__(self, model, Scaling=True):
+    def __init__(self, model, scaling=True):
         """Instantiate the class."""
 
-        self.Pipeline = self._init_pipeline(model, Scaling)
-        self.scaling = Scaling
+        self.Pipeline = self._init_pipeline(model, scaling)
+        self.scaling = scaling
 
     def _init_pipeline(self, model, Scaling):
         """Create the pipeline object."""
@@ -33,7 +47,7 @@ class ChurnPipeline():
         self.Pipeline.fit(X, y)
 
     def predict(self, X):
-        """Make predictions based on the X matrix"""
+        """Make predictions based on the X matrix."""
         return self.Pipeline.predict(X)
 
     def cross_val_score(self, X, y, cv=5):
