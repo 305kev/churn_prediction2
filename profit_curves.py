@@ -42,8 +42,7 @@ def profit_curve(cost_benefit, predicted_probs, labels):
     return thresholds, profit
 
 
-def plot_profit_curve(model, cost_benefit, X_train, X_test, y_train, y_test,
-                      show=True):
+def plot_profit_curve(model, cost_benefit, X_train, X_test, y_train, y_test, show=True):
     """Plot the profit curve for a given model and cost-benefit matrix.
 
     Return the values that correspond to the maximum profit.
@@ -59,8 +58,13 @@ def plot_profit_curve(model, cost_benefit, X_train, X_test, y_train, y_test,
     model.fit(X_train, y_train)
     probs = model.predict_proba(X_test)
     t, profits = profit_curve(cost_benefit, probs[:, 1], y_test)
+    print probs
+
     midx = np.argmax(profits)
     percentages = np.arange(0, 100, 100. / len(profits))
+
+    print profits
+
     if show:
         plt.plot(percentages, profits, label=model.__class__.__name__)
         plt.title("Profit Curve")
