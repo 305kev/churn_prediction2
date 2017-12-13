@@ -9,7 +9,7 @@ applied a number of models, including Gradient Boosting and Random Forests to op
 our cost and benefits. We focused on minimizing costs, and thus chose to maximize our recall 
 score-- the chance that our model correctly predicted a churn, given that the customer had
 actually churned. This allowed us to make a businesss case for how to differentiate the company's 
-limited resources, and marketing plan. 
+marketing plan in order to best deploy limited resources. 
 
 To view our presentation click on the URL below: 
 https://docs.google.com/presentation/d/1ya1XayNVkddg7eFU1Yo701ZCFYFfn_nHhH5bWetOAco/edit#slide=id.p
